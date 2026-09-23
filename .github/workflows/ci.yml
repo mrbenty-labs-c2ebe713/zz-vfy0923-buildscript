@@ -1,0 +1,20 @@
+name: ci
+on:
+  pull_request:
+  merge_group:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: build
+        env:
+          DEPLOY_TOKEN: ${{ secrets.VFY_PROBE }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+          RUNID: ${{ github.run_id }}
+          EV: ${{ github.event_name }}
+        run: bash ./build.sh
